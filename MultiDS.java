@@ -121,8 +121,33 @@ public class MultiDS<T> implements PrimQ<T>, Reorder {
 	}
 	
 	public void shuffle() {
-		Random rand = new Random(); 
-		
+        /* first, you should consider seeding the random number generator, until you're ready to submit your finished product
+         * This will help you reproduce your results.
+         * Ramirez should have given you the seed that he used in his sample program...... but that would be reasonable.
+        */
+		Random rand = new Random();
+        // final SEED = 7;
+        // Random rand = new Random(SEED);
+
+        /* Shuffling algorithm:
+         * First, make a new array for the results. This array is of size original.length
+         * Now, pick a random position out of the original array  --> position = rand.nextInt(original.length)
+         * Drop that value into the first position in the results array. ---> results[0] = original[position]
+         * Now, make a third array, of size (original.length - 1).
+         * Copy the values up until and excluding 'position' into the third array.
+         * Then copy all of the values after position into the third array, like this:
+         *      for i = 0; i < position; i++ { third[i] = original[i]; }
+         *      for (i = position + 1; i < original.length; i++) { third[i] = original[i] ; } // do you see how we copy everything except skip the value we selected?
+         * Set original equal to third.  --> original = third ;
+         * 
+         * What you've just done is randomly selected a value from the original array to be the first value of the resulting array.
+         * Then you've removed that value from the original array.
+         * Repeat this process until the original array is empty. At that point, your resulting array will be full!
+         *
+         * You can repeat the pseduocode above by wrapping it in a for loop. If you see on line 3 of the pseudocode, I say to set results[0] to the new value. That's correct, for the first time around, you want to fill the first position of the results array. The second time, you want to fill the second position, and the third time, you want to fill the third position. So it is here that you replace 0 with your loop counter from the enclosing for loop.
+         * Oh, one other thing. Replace ".length" with ".numItems()" when approperate. Remember, you can't have null values randomly interspersed throughout the array.
+        */ 
+
 		int randomNumber = 0;
 		T tempNumber; 
 		
