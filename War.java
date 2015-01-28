@@ -9,9 +9,11 @@ public class War {
 	static MultiDS<Card> p1Discard 	= new MultiDS<Card>(52);
 	static MultiDS<Card> p2Discard 	= new MultiDS<Card>(52);
 	
+	static int rounds; 
+	
 	public static void main(String[] args) { 
 		
-		int rounds = Integer.parseInt(args[0]);
+		rounds = Integer.parseInt(args[0]);
 		
 		greeting();
 		fillDeck();
@@ -20,27 +22,26 @@ public class War {
 		
 		System.out.println("Starting War");
 		
-			for (int i = 0; i <= rounds; i++) {
-				Card compareCardP1 = getP1Card();
-				Card compareCardP2 = getP2Card();
+			for (int i = 0; i < rounds; i++) {
 				
-				boolean cP1 = p1HasCards(rounds);
-				boolean cP2 = p2HasCards(rounds); 
+				boolean cP1 = p1HasCards();
+				boolean cP2 = p2HasCards(); 
 				
 				if (cP1 && cP2) {
+					Card compareCardP1 = getP1Card();
+					Card compareCardP2 = getP2Card();
 					compareCards(compareCardP1, compareCardP2);
 					
 				} else if (!cP1 && cP2) {
-					endGame(rounds);
+					endGame();
 					
 				} else if(cP1 && !cP2) {
-					endGame(rounds);
+					endGame();
 					
 				} 
 			}
 			
-			endGame(rounds);
-		
+			endGame();
 	}
 	
 	public static void greeting() {
@@ -82,10 +83,10 @@ public class War {
 		System.out.println(p2Cards.toString() + "\n");
 	}
 	
-	public static boolean p1HasCards(int rounds) {
+	public static boolean p1HasCards() {
 		boolean p1CardsLeft = false;
 	
-		if (! p1Cards.empty()) {
+		if (!p1Cards.empty()) {
 			p1CardsLeft = true; 
 		} else if (p1Cards.empty() && !p1Discard.empty()) {
 			System.out.println("Getting and shuffling the pile for player 1");
@@ -94,22 +95,20 @@ public class War {
 				p1Cards.addItem(removeCard); 
 			}
 			p1Cards.shuffle(); 
-			
+			p1CardsLeft = true;
 		} else {
 			// Player 1 loses 
-			System.out.println("Player 1 is out of cards");
-			endGame(rounds);
 			p1CardsLeft = false; 
 		}
 		
 		return p1CardsLeft; 
 	}
 	
-	public static boolean p2HasCards(int rounds) {
+	public static boolean p2HasCards() {
 		boolean p2CardsLeft = false; 
 		
-		if (! p2Cards.empty()) {
-			p2CardsLeft = true; 
+		if (!p2Cards.empty()) {
+			p2CardsLeft = true;
 		
 		} else if (p2Cards.empty() && !p2Discard.empty()) {
 			System.out.println("Getting and shuffling the pile for player 2");
@@ -118,11 +117,10 @@ public class War {
 				p2Cards.addItem(removeCard);
 			}
 			p2Cards.shuffle();
+			p2CardsLeft = true; 
 			
 		} else { 
 			// Player 2 loses
-			System.out.println("Player 2 is out of Cards.");
-			endGame(rounds);
 			p2CardsLeft = false;
 		}
 		 
@@ -132,49 +130,57 @@ public class War {
 	// TODO separate into 2 different methods, one boolean for telling
 	//		if cards left, the other card type for returning card 
 	public static Card getP1Card() {
-		Card p1Card;
-		p1Card = p1Cards.removeItem(); 
-		return p1Card;
+		Card compareCardP1;
+		compareCardP1 = p1Cards.removeItem();
+		if (compareCardP1 == null) {
+			endGame();
+		}
+		return compareCardP1;
 	}
 	
 	public static Card getP2Card() {
-		Card p2Card; 
-		p2Card = p2Cards.removeItem();
-		return p2Card; 
+		Card compareCardP2; 
+		compareCardP2 = p2Cards.removeItem();
+		if (compareCardP2 == null) {
+			endGame();
+		}
+		return compareCardP2; 
 	}
 	
-	public static void compareCards(Card p1CardToCompare, Card p2CardToCompare) {
+	public static void compareCards(Card compareCardP1, Card compareCardP2) {
 		
-		if (p1CardToCompare.equals(p2CardToCompare)) {
-			System.out.println("WAR: " + p1CardToCompare + " ties " + p2CardToCompare);
+		if (compareCardP1.equals(compareCardP2)) {
+			System.out.println("inside equals if statement");
+			
+			System.out.println("WAR: " + compareCardP1 + " ties " + compareCardP2);
 			int cardWinner = cardWar();
 			
 			if (cardWinner == 1) {
-				p1Discard.addItem(p1CardToCompare);
-				p1Discard.addItem(p2CardToCompare);
+				p1Discard.addItem(compareCardP1);
+				p1Discard.addItem(compareCardP2);
 			} 
 			
 			if (cardWinner == 2){
-				p2Discard.addItem(p1CardToCompare);
-				p2Discard.addItem(p2CardToCompare); 
+				p2Discard.addItem(compareCardP1);
+				p2Discard.addItem(compareCardP2); 
 			}
 			
 		} else {
 			// cards not equal, need to compare
-			int result = p1CardToCompare.compareTo(p2CardToCompare);
+			int result = compareCardP1.compareTo(compareCardP2);
 		
 			if (result > 0) {
 				// x beats y
 				// add cards to x's discard pile
-				System.out.println("Player 1 Wins: " + p1CardToCompare + " beats " + p2CardToCompare);
-				p1Discard.addItem(p1CardToCompare);
-				p1Discard.addItem(p2CardToCompare);
+				System.out.println("Player 1 Wins: " + compareCardP1 + " beats " + compareCardP2);
+				p1Discard.addItem(compareCardP1);
+				p1Discard.addItem(compareCardP2);
 			} else if (result < 0) {
 				// x loses to y
 				// add cards to y's discard pile
-				System.out.println("Player 2 Wins: " + p1CardToCompare + " loses to " + p2CardToCompare);
-				p2Discard.addItem(p1CardToCompare);
-				p2Discard.addItem(p2CardToCompare); 
+				System.out.println("Player 2 Wins: " + compareCardP1 + " loses to " + compareCardP2);
+				p2Discard.addItem(compareCardP1);
+				p2Discard.addItem(compareCardP2); 
 			} 
 		}
 	}
@@ -184,21 +190,33 @@ public class War {
 		// each player plays another card, compares
 		// if tie again repeat process
 		// winner takes all 6+ cards
-		Card uncomparedP1;
-		Card uncomparedP2;
-		Card comparedP1;
-		Card comparedP2; 
+		System.out.println("reached cardWar method");
+		
+		Card uncomparedP1 = null;
+		Card uncomparedP2 = null;
+		Card comparedP1 = null;
+		Card comparedP2 = null; 
 		
 		int cardWinner = 0;
 		
-		boolean war = false; 
+		boolean war = true; 
 		
 		while (war) {
-			uncomparedP1 = p1Cards.removeItem();
-			uncomparedP2 = p2Cards.removeItem();
 			
-			comparedP1 = p1Cards.removeItem();
-			comparedP2 = p2Cards.removeItem();
+			boolean cP1 = p1HasCards();
+			boolean cP2 = p2HasCards();
+			
+			if (cP1 && cP2) {
+				uncomparedP1 = p1Cards.removeItem();
+				uncomparedP2 = p2Cards.removeItem();
+			
+				comparedP1 = p1Cards.removeItem();
+				comparedP2 = p2Cards.removeItem();
+			} else if (!cP1 && cP2) {
+				endGame();
+			} else if (cP1 && !cP2) {
+				endGame();
+			}
 			
 			if (comparedP1.equals(comparedP2)) {
 				war = true; 
@@ -215,6 +233,7 @@ public class War {
 					
 					cardWinner = 1; 
 					war = false; 
+					break;
 				} else if (result < 0) {
 					System.out.println("Player 2 wins: " + comparedP1 + " loses to " + comparedP2);
 					p2Discard.addItem(comparedP1);
@@ -223,14 +242,15 @@ public class War {
 					p2Discard.addItem(uncomparedP2); 
 					
 					cardWinner = 2; 
-					war = false; 
+					war = false;
+					break;
 				}
 			}
 		}
 		return cardWinner; 
 	}
 	
-	public static void endGame(int rounds) {
+	public static void endGame() {
 		System.out.println();
 		System.out.println("After " + rounds + " rounds:" );
 		
