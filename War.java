@@ -35,7 +35,7 @@ public class War {
 				} else if (!cP1 && cP2) {
 					endGame();
 					
-				} else if(cP1 && !cP2) {
+				} else if (cP1 && !cP2) {
 					endGame();
 					
 				} 
@@ -88,6 +88,7 @@ public class War {
 	
 		if (!p1Cards.empty()) {
 			p1CardsLeft = true; 
+		
 		} else if (p1Cards.empty() && !p1Discard.empty()) {
 			System.out.println("Getting and shuffling the pile for player 1");
 			for (int i = 0; i < p1Discard.size(); i++) {
@@ -148,24 +149,13 @@ public class War {
 	}
 	
 	public static void compareCards(Card compareCardP1, Card compareCardP2) {
-		
+		/*
 		if (compareCardP1.equals(compareCardP2)) {
 			System.out.println("inside equals if statement");
+		
+		
 			
-			System.out.println("WAR: " + compareCardP1 + " ties " + compareCardP2);
-			int cardWinner = cardWar();
-			
-			if (cardWinner == 1) {
-				p1Discard.addItem(compareCardP1);
-				p1Discard.addItem(compareCardP2);
-			} 
-			
-			if (cardWinner == 2){
-				p2Discard.addItem(compareCardP1);
-				p2Discard.addItem(compareCardP2); 
-			}
-			
-		} else {
+		} else {*/
 			// cards not equal, need to compare
 			int result = compareCardP1.compareTo(compareCardP2);
 		
@@ -181,8 +171,21 @@ public class War {
 				System.out.println("Player 2 Wins: " + compareCardP1 + " loses to " + compareCardP2);
 				p2Discard.addItem(compareCardP1);
 				p2Discard.addItem(compareCardP2); 
-			} 
-		}
+			} else {
+				System.out.println("WAR: " + compareCardP1 + " ties " + compareCardP2);
+				int cardWinner = cardWar();
+				
+				if (cardWinner == 1) {
+					p1Discard.addItem(compareCardP1);
+					p1Discard.addItem(compareCardP2);
+				} 
+				
+				if (cardWinner == 2){
+					p2Discard.addItem(compareCardP1);
+					p2Discard.addItem(compareCardP2); 
+				}
+			}
+		//}
 	}
 	
 	public static int cardWar() {
@@ -216,12 +219,12 @@ public class War {
 				endGame();
 			} else if (cP1 && !cP2) {
 				endGame();
-			}
-			
+			} 
+			/*
 			if (comparedP1.equals(comparedP2)) {
 				war = true; 
 				
-			} else {
+			} else { */
 				int result = comparedP1.compareTo(comparedP2);
 				
 				if (result > 0) {
@@ -244,8 +247,10 @@ public class War {
 					cardWinner = 2; 
 					war = false;
 					break;
+				} else {
+					war = true; 
 				}
-			}
+			//}
 		}
 		return cardWinner; 
 	}
@@ -254,8 +259,15 @@ public class War {
 		System.out.println();
 		System.out.println("After " + rounds + " rounds:" );
 		
-		int p1NumCards = p1Cards.size() + p2Discard.size();
-		int p2NumCards = p2Cards.size() + p2Discard.size();
+		System.out.println();
+		System.out.println(p1Cards.size());
+		System.out.println(p2Cards.size());
+		System.out.println(p1Discard.size());
+		System.out.println(p2Discard.size());
+		System.out.println();
+		
+		int p1NumCards = (p1Cards.size() + p1Discard.size());
+		int p2NumCards = (p2Cards.size() + p2Discard.size());
 		
 		if (p1NumCards != 0 && p1NumCards != 0) {
 			System.out.println("Player 1 has " + p1NumCards + " cards");
@@ -266,6 +278,8 @@ public class War {
 		} else if (p2NumCards == 0) {
 			System.out.println("Player 2 is out of cards");
 			System.out.println("Player 1 wins");
+		} else {
+			System.out.println("error");
 		}
 		
 		if (p1NumCards > p2NumCards) {

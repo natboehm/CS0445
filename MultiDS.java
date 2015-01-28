@@ -52,7 +52,8 @@ public class MultiDS<T> implements PrimQ<T>, Reorder {
 			primQ[numItem] = null; 
 			
 			return positionZero; 
-		} else {		
+		} else {
+			System.out.println("I'm a fucking moron!");
 			return null;
 		}
 	}
@@ -125,12 +126,12 @@ public class MultiDS<T> implements PrimQ<T>, Reorder {
 		int randomNumber = 0;
 		T tempNumber; 
 		
-		for (int i = numItem - 1; i >= 0; i--) {
+		for (int i = 0; i < numItem; i++) {
 			randomNumber = rand.nextInt(i + 1);
 
-			tempNumber = primQ[randomNumber];
-			primQ[randomNumber] = primQ[i];
-			primQ[i] = tempNumber; 
+			tempNumber = primQ[i];
+			primQ[i] = primQ[randomNumber];
+			primQ[randomNumber] = tempNumber;
 		}
 	}
 	
