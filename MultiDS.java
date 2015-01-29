@@ -45,7 +45,7 @@ public class MultiDS<T> implements PrimQ<T>, Reorder {
 			int i = 0; 
 			positionZero = primQ[i];
 			
-			for (int p = 1; p <= (numItem-1); p++) {
+			for (int p = 1; p < numItem; p++) {
 				primQ[(p-1)] = primQ[p];
 			}
 			numItem--;
@@ -53,9 +53,9 @@ public class MultiDS<T> implements PrimQ<T>, Reorder {
 			
 			return positionZero; 
 		} else {
-			System.out.println("I'm a fucking moron!");
+			
 			return null;
-		}
+		} 
 	}
 	
 	public boolean full() {
@@ -120,19 +120,33 @@ public class MultiDS<T> implements PrimQ<T>, Reorder {
 		}
 	}
 	
+	@SuppressWarnings("unchecked") 
 	public void shuffle() {
-		Random rand = new Random(); 
-		
-		int randomNumber = 0;
-		T tempNumber; 
-		
-		for (int i = 0; i < numItem; i++) {
-			randomNumber = rand.nextInt(i + 1);
-
-			tempNumber = primQ[i];
-			primQ[i] = primQ[randomNumber];
-			primQ[randomNumber] = tempNumber;
+		final int SEED = 7;
+		Random rand = new Random(SEED);
+		T[] original = (T[]) new Object[this.size()];
+		T[] results = (T[]) new Object[original.length];
+		for(int i = 0; i < this.size(); i++) original[i] = primQ[i];
+			
+		for(int index = 0; original.length > 0; index++) {
+			int position = rand.nextInt(original.length);
+			if(original.length == 0) {
+				System.out.println("PAAAAAANIIIIIIC!");
+				break;
+			}
+			results[index] = original[position];
+			
+			T[] temp = (T[]) new Object[original.length - 1];
+			for(int j = 0; j < position; j++) temp[j] = original[j];
+			for(int j = position + 1; j < original.length; j++) temp[j-1] = original[j];
+			original = temp;
 		}
+		
+		T[] primQ2 = (T[]) new Object[primQ.length];
+		for(int i = 0; i < results.length; i++) primQ2[i]  = results[i];
+		
+		primQ = primQ2;
+		
 	}
 	
 	public String toString() {

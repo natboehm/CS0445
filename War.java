@@ -152,13 +152,19 @@ public class War {
 		/*
 		if (compareCardP1.equals(compareCardP2)) {
 			System.out.println("inside equals if statement");
-		
-		
-			
+
 		} else {*/
 			// cards not equal, need to compare
-			int result = compareCardP1.compareTo(compareCardP2);
-		
+			int result = 0;
+			try {
+				result = compareCardP1.compareTo(compareCardP2);
+			} catch (NullPointerException e) {
+				
+				System.out.println(compareCardP1);
+				System.out.println(compareCardP2);				
+			}
+			
+			
 			if (result > 0) {
 				// x beats y
 				// add cards to x's discard pile
@@ -193,7 +199,7 @@ public class War {
 		// each player plays another card, compares
 		// if tie again repeat process
 		// winner takes all 6+ cards
-		System.out.println("reached cardWar method");
+		// System.out.println("reached cardWar method");
 		
 		Card uncomparedP1 = null;
 		Card uncomparedP2 = null;
@@ -259,13 +265,14 @@ public class War {
 		System.out.println();
 		System.out.println("After " + rounds + " rounds:" );
 		
+		/*
 		System.out.println();
-		System.out.println(p1Cards.size());
-		System.out.println(p2Cards.size());
-		System.out.println(p1Discard.size());
-		System.out.println(p2Discard.size());
+		System.out.println(p1Cards);
+		System.out.println(p2Cards);
+		System.out.println(p1Discard);
+		System.out.println(p2Discard);
 		System.out.println();
-		
+		*/
 		int p1NumCards = (p1Cards.size() + p1Discard.size());
 		int p2NumCards = (p2Cards.size() + p2Discard.size());
 		
@@ -289,5 +296,6 @@ public class War {
 		} else {
 			System.out.println("It is a stalemate");
 		}
+		System.exit(0);
 	}
 }
