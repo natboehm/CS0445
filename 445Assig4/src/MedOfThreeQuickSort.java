@@ -99,4 +99,16 @@ public class MedOfThreeQuickSort {
 		
 		a[index + 1] = element;
 	}
+	
+	public static <T extends Comparable<? super T>> String toString(T[] array) {
+		StringBuilder s = new StringBuilder();
+		T data;
+		
+		for (int i = 0; i < array.length; i++) {
+			data = array[i];
+			s.append(data + " ");
+		}
+		
+		return s.toString();
+	}
 }

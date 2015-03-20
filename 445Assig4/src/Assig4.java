@@ -25,15 +25,14 @@ public class Assig4 {
 	public static void fillArray(int arraySize, int numberTrials) {
 		Integer[] alreadySorted = fillAlreadySorted(arraySize);
 		Integer[] reverseSorted = fillReverseSorted(arraySize);
-		Integer[] random 		= fillRandom(arraySize);
-		
+		Integer[] random = null;
 		sortArrays(alreadySorted, reverseSorted, random, arraySize, numberTrials);
 	}
 	
 	public static void sortArrays(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials) {
 		for (int i = 0; i < numberTrials; i++) {
 			reverseSorted = copyArray(reverseSorted, arraySize);
-			random 		  = copyArray(random, arraySize);
+			random 		  = fillRandom(arraySize);
 			useSimpleQuick(alreadySorted, reverseSorted, random, arraySize, numberTrials, i);
 			
 			reverseSorted = copyArray(reverseSorted, arraySize);
@@ -212,7 +211,6 @@ public class Assig4 {
 	}
 	
 	public static void useRandomPivot(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i) {
-		MedOfThreeQuickSort m = new MedOfThreeQuickSort(20);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
 		long alreadyAverage, reverseAverage, randAverage;
 		
