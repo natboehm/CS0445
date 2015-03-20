@@ -36,7 +36,7 @@ public class SimpleQuickSort {
 			if (indexFromLeft < indexFromRight) {
 				swap(a, indexFromLeft, indexFromRight);
 				indexFromLeft++;
-				indexFromRight++;
+				indexFromRight--;
 			} else {
 				done = true;
 			}
@@ -65,4 +65,6 @@ public class SimpleQuickSort {
 		
 		return s.toString();
 	}
+	
+	
 }

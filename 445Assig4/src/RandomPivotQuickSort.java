@@ -11,16 +11,18 @@ public class RandomPivotQuickSort {
 	}
 	
 	public static <T extends Comparable<? super T>> int getPivotIndex(T[] array, int first, int last) {
-		int pivotIndex = 0;
+		int randPivotIndex = 0;
 		Random r = new Random();
 		
-		pivotIndex = r.nextInt(array.length);
+		randPivotIndex = r.nextInt((last - first) + 1) + first;
 		
-		return pivotIndex;
+		return randPivotIndex;
 	}
 	
 	public static <T extends Comparable<? super T>> void quickSort(T[] array, int first, int last) {
 		if (first < last) {
+			int randPivotIndex = getPivotIndex(array, first, last);
+			swap(array, randPivotIndex, last);
 			int pivotIndex = partition(array, first, last);
 			
 			quickSort(array, first, pivotIndex - 1);
@@ -29,7 +31,7 @@ public class RandomPivotQuickSort {
 	}
 	
 	private static <T extends Comparable<? super T>> int partition(T[] a, int first, int last) {
-		int pivotIndex = getPivotIndex(a, first, last);
+		int pivotIndex = last;
 		T pivot = a[pivotIndex];
 		
 		int indexFromLeft = first;
@@ -62,5 +64,17 @@ public class RandomPivotQuickSort {
 		Object temp = a[i];
 		a[i] = a[j];
 		a[j] = temp;
-	}	
+	}
+	
+	public static <T extends Comparable<? super T>> String toString(T[] array) {
+		StringBuilder s = new StringBuilder();
+		T data;
+		
+		for (int i = 0; i < array.length; i++) {
+			data = array[i];
+			s.append(data + " ");
+		}
+		
+		return s.toString();
+	}
 }
