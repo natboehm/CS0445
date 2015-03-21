@@ -65,6 +65,4 @@ public class SimpleQuickSort {
 		
 		return s.toString();
 	}
-	
-	
 }
