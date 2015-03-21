@@ -22,48 +22,55 @@ public class Assig4 {
 		int arraySize 	 = inputArraySize();
 		int numberTrials = inputTrialNumber();
 		String fileName  = inputFileName();
+		BufferedWriter w = null;
 		
-		fillArray(arraySize, numberTrials, fileName);
+		try {
+			w = new BufferedWriter(new FileWriter(new File(fileName), true));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		fillArray(arraySize, numberTrials, w);
 	}
 	
-	public static void fillArray(int arraySize, int numberTrials, String fileName) {
+	public static void fillArray(int arraySize, int numberTrials, BufferedWriter w) {
 		Integer[] alreadySorted = fillAlreadySorted(arraySize);
 		Integer[] reverseSorted = fillReverseSorted(arraySize);
 		Integer[] random = null;
-		sortArrays(alreadySorted, reverseSorted, random, arraySize, numberTrials, fileName);
+		sortArrays(alreadySorted, reverseSorted, random, arraySize, numberTrials, w);
 	}
 	
-	public static void sortArrays(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, String fileName) {
+	public static void sortArrays(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, BufferedWriter w) {
 		for (int i = 0; i < numberTrials; i++) {
 			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = fillRandom(arraySize);
 			//System.out.println("Unsorted reverse S: " + SimpleQuickSort.toString(reverseSorted));
 			//System.out.println("Unsorted random S: " + SimpleQuickSort.toString(random));
-			useSimpleQuick(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
+			useSimpleQuick(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
 			//System.out.println("Unsorted reverse A: " + MedOfThreeQuickSort.toString(reverseSorted));
 			//System.out.println("Unsorted random A: " + MedOfThreeQuickSort.toString(random));
-			useMedOfThreeA(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
+			useMedOfThreeA(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
 			//System.out.println("Unsorted reverse B: " + MedOfThreeQuickSort.toString(reverseSorted));
 			//System.out.println("Unsorted reverse B: " + MedOfThreeQuickSort.toString(random));
-			useMedOfThreeB(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
+			useMedOfThreeB(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
-			useMedOfThreeC(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
+			useMedOfThreeC(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
-			useRandomPivot(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
+			useRandomPivot(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, w);
 		}	
 	}
 	
-	public static void useSimpleQuick(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
+	public static void useSimpleQuick(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
 		float alreadyAverage, reverseAverage, randAverage;
 		
@@ -80,7 +87,7 @@ public class Assig4 {
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 1);
 			SortOutput rand = new SortOutput(random, randAverage, arraySize, numberTrials, 3, 1);
 			
-			outputData(arraySize, s, r, rand, fileName);
+			outputData(arraySize, s, r, rand, w);
 		}
 	}
 	
@@ -131,7 +138,7 @@ public class Assig4 {
 		return newArray;
 	}
 	
-	public static void useMedOfThreeA(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
+	public static void useMedOfThreeA(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
 		MedOfThreeQuickSort m = new MedOfThreeQuickSort(5);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
 		float alreadyAverage, reverseAverage, randAverage;
@@ -149,11 +156,11 @@ public class Assig4 {
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 2);
 			SortOutput rand = new SortOutput(random, randAverage, arraySize, numberTrials, 3, 2);
 			
-			outputData(arraySize, s, r, rand, fileName);
+			outputData(arraySize, s, r, rand, w);
 		}
 	}
 	
-	public static void useMedOfThreeB(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
+	public static void useMedOfThreeB(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
 		MedOfThreeQuickSort m = new MedOfThreeQuickSort(10);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
 		float alreadyAverage, reverseAverage, randAverage;
@@ -171,11 +178,11 @@ public class Assig4 {
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 3);
 			SortOutput rand = new SortOutput(random, randAverage, arraySize, numberTrials, 3, 3);
 			
-			outputData(arraySize, s, r, rand, fileName);
+			outputData(arraySize, s, r, rand, w);
 		}
 	}
 	
-	public static void useMedOfThreeC(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
+	public static void useMedOfThreeC(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
 		MedOfThreeQuickSort m = new MedOfThreeQuickSort(20);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
 		float alreadyAverage, reverseAverage, randAverage;
@@ -193,7 +200,7 @@ public class Assig4 {
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 4);
 			SortOutput rand = new SortOutput(random, randAverage, arraySize, numberTrials, 3, 4);
 			
-			outputData(arraySize, s, r, rand, fileName);
+			outputData(arraySize, s, r, rand, w);
 		}
 	}
 	
@@ -236,7 +243,7 @@ public class Assig4 {
 		return total;
 	}
 	
-	public static void useRandomPivot(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
+	public static void useRandomPivot(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
 		float alreadyAverage, reverseAverage, randAverage;
 		
@@ -253,7 +260,12 @@ public class Assig4 {
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 5);
 			SortOutput rand = new SortOutput(random, randAverage, arraySize, numberTrials, 3, 5);
 			
-			outputData(arraySize, s, r, rand, fileName);
+			outputData(arraySize, s, r, rand, w);
+			try {
+				w.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -356,17 +368,17 @@ public class Assig4 {
 		return fileName;
 	}
 	
-	public static void outputData(int arraySize, SortOutput sorted, SortOutput reverse, SortOutput random, String fileName) {
-		
+	public static void outputData(int arraySize, SortOutput sorted, SortOutput reverse, SortOutput random, BufferedWriter w) {
+		/*
 		System.out.println(sorted.fileToString());
 		System.out.println(reverse.fileToString());
 		System.out.println(random.fileToString());
-		
+		*/
 		
 		if (arraySize <= 20) 
 			outputCommandLine(sorted, reverse, random);
 		
-		outputToFile(sorted, reverse, random, fileName);
+		outputToFile(sorted, reverse, random, w);
 	}
 	
 	public static void outputCommandLine(SortOutput sorted, SortOutput reverse, SortOutput random) {
@@ -375,16 +387,14 @@ public class Assig4 {
 		System.out.println(random.traceToString());
 	}
 	
-	public static void outputToFile(SortOutput sorted, SortOutput reverse, SortOutput random, String fileName) {
-		BufferedWriter w;
-		try {
-			w = new BufferedWriter(new FileWriter(new File(fileName)));
-			w.write(sorted.fileToString());
-			w.write(reverse.fileToString());
-			w.write(random.fileToString());
-			w.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+	public static void outputToFile(SortOutput sorted, SortOutput reverse, SortOutput random, BufferedWriter w) {
+			try {
+				w.append(sorted.fileToString());
+				w.append(reverse.fileToString());
+				w.append(random.fileToString());
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 }
