@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 
 /*
  *  Natalie Boehm, Assignment 4: QuickSort Comparison
@@ -9,13 +10,15 @@ public class SortOutput {
 	int 	arraySize;
 	String 	order;
 	int 	numberTrials;
-	float 	averageTime;
+	String 	averageTime;
+	
+	DecimalFormat df = new DecimalFormat("#0.########");
 	
 	Integer[] array;
 	
 	public SortOutput(Integer[] a, float ave, int s, int n, int ord, int alg) {
 		array = a;
-		averageTime = ave;
+		averageTime = df.format(ave);
 		numberTrials = n;
 		arraySize = s;
 		
@@ -75,7 +78,7 @@ public class SortOutput {
 		f.append("\n");
 		f.append("Number of Trials: " + numberTrials);
 		f.append("\n");
-		f.append("Average Time per Trial: " + averageTime);
+		f.append("Average Time per Trial: " + averageTime + " secs");
 		f.append("\n");
 		f.append("\n");
 		
@@ -97,7 +100,7 @@ public class SortOutput {
 		for (int i = 0; i < arraySize; i++)
 			t.append(array[i] + " ");
 		t.append("\n");
-		t.append("Time Required For Sort: " + averageTime);
+		t.append("Average Time per Trial: " + averageTime + " secs");
 		t.append("\n");
 		
 		return t.toString();

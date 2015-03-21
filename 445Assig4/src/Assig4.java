@@ -35,23 +35,29 @@ public class Assig4 {
 	
 	public static void sortArrays(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, String fileName) {
 		for (int i = 0; i < numberTrials; i++) {
-			reverseSorted = copyArray(reverseSorted, arraySize);
+			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = fillRandom(arraySize);
+			//System.out.println("Unsorted reverse S: " + SimpleQuickSort.toString(reverseSorted));
+			//System.out.println("Unsorted random S: " + SimpleQuickSort.toString(random));
 			useSimpleQuick(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
 			
-			reverseSorted = copyArray(reverseSorted, arraySize);
+			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
+			//System.out.println("Unsorted reverse A: " + MedOfThreeQuickSort.toString(reverseSorted));
+			//System.out.println("Unsorted random A: " + MedOfThreeQuickSort.toString(random));
 			useMedOfThreeA(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
 			
-			reverseSorted = copyArray(reverseSorted, arraySize);
+			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
+			//System.out.println("Unsorted reverse B: " + MedOfThreeQuickSort.toString(reverseSorted));
+			//System.out.println("Unsorted reverse B: " + MedOfThreeQuickSort.toString(random));
 			useMedOfThreeB(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
 			
-			reverseSorted = copyArray(reverseSorted, arraySize);
+			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
 			useMedOfThreeC(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
 			
-			reverseSorted = copyArray(reverseSorted, arraySize);
+			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = copyArray(random, arraySize);
 			useRandomPivot(alreadySorted, reverseSorted, random, arraySize, numberTrials, i, fileName);
 		}	
@@ -59,16 +65,16 @@ public class Assig4 {
 	
 	public static void useSimpleQuick(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
-		long alreadyAverage, reverseAverage, randAverage;
+		float alreadyAverage, reverseAverage, randAverage;
 		
 		alreadyTotal = alreadySortedSimpleQuick(alreadySorted, arraySize);
 		reverseTotal = reverseSimpleQuick(reverseSorted, arraySize);
 		randTotal 	 = randomSimpleQuick(random, arraySize);	
 	
 		if (i == (numberTrials-1)) {
-			alreadyAverage = (alreadyTotal/numberTrials)/billion;
-			reverseAverage = (reverseTotal/numberTrials)/billion;
-			randAverage    = (randTotal/numberTrials)/billion;
+			alreadyAverage = ((float)alreadyTotal/numberTrials)/billion;
+			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
+			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
 			SortOutput s = new SortOutput(alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 1);
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 1);
@@ -128,16 +134,16 @@ public class Assig4 {
 	public static void useMedOfThreeA(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
 		MedOfThreeQuickSort m = new MedOfThreeQuickSort(5);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
-		long alreadyAverage, reverseAverage, randAverage;
+		float alreadyAverage, reverseAverage, randAverage;
 		
 		alreadyTotal = alreadyMedThree(alreadySorted, arraySize);
 		reverseTotal = reverseMedThree(reverseSorted, arraySize);
 		randTotal 	 = randomMedThree(random, arraySize);	
 		
 		if (i == (numberTrials-1)) {
-			alreadyAverage = (alreadyTotal/numberTrials)/billion;
-			reverseAverage = (reverseTotal/numberTrials)/billion;
-			randAverage    = (randTotal/numberTrials)/billion;
+			alreadyAverage = ((float)alreadyTotal/numberTrials)/billion;
+			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
+			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
 			SortOutput s = new SortOutput(alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 2);
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 2);
@@ -150,16 +156,16 @@ public class Assig4 {
 	public static void useMedOfThreeB(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
 		MedOfThreeQuickSort m = new MedOfThreeQuickSort(10);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
-		long alreadyAverage, reverseAverage, randAverage;
+		float alreadyAverage, reverseAverage, randAverage;
 		
 		alreadyTotal = alreadyMedThree(alreadySorted, arraySize);
 		reverseTotal = reverseMedThree(reverseSorted, arraySize);
 		randTotal 	 = randomMedThree(random, arraySize);	
 		
 		if (i == (numberTrials-1)) {
-			alreadyAverage = (alreadyTotal/numberTrials)/billion;
-			reverseAverage = (reverseTotal/numberTrials)/billion;
-			randAverage    = (randTotal/numberTrials)/billion;
+			alreadyAverage = ((float)alreadyTotal/numberTrials)/billion;
+			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
+			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
 			SortOutput s = new SortOutput(alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 3);
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 3);
@@ -172,16 +178,16 @@ public class Assig4 {
 	public static void useMedOfThreeC(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
 		MedOfThreeQuickSort m = new MedOfThreeQuickSort(20);
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
-		long alreadyAverage, reverseAverage, randAverage;
+		float alreadyAverage, reverseAverage, randAverage;
 		
 		alreadyTotal = alreadyMedThree(alreadySorted, arraySize);
 		reverseTotal = reverseMedThree(reverseSorted, arraySize);
 		randTotal    = randomMedThree(random, arraySize);	
 		
 		if (i == (numberTrials-1)) {
-			alreadyAverage = (alreadyTotal/numberTrials)/billion;
-			reverseAverage = (reverseTotal/numberTrials)/billion;
-			randAverage    = (randTotal/numberTrials)/billion;
+			alreadyAverage = ((float)alreadyTotal/numberTrials)/billion;
+			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
+			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
 			SortOutput s = new SortOutput(alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 4);
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 4);
@@ -232,16 +238,16 @@ public class Assig4 {
 	
 	public static void useRandomPivot(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, String fileName) {
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
-		long alreadyAverage, reverseAverage, randAverage;
+		float alreadyAverage, reverseAverage, randAverage;
 		
 		alreadyTotal = alreadyRandomPivot(alreadySorted, arraySize);
 		reverseTotal = reverseRandomPivot(reverseSorted, arraySize);
 		randTotal    = randomRandomPivot(random, arraySize);	
 		
 		if (i == (numberTrials-1)) {
-			alreadyAverage = (alreadyTotal/numberTrials)/billion;
-			reverseAverage = (reverseTotal/numberTrials)/billion;
-			randAverage    = (randTotal/numberTrials)/billion;
+			alreadyAverage = ((float)alreadyTotal/numberTrials)/billion;
+			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
+			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
 			SortOutput s = new SortOutput(alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 5);
 			SortOutput r = new SortOutput(reverseSorted, reverseAverage, arraySize, numberTrials, 2, 5);
@@ -351,11 +357,11 @@ public class Assig4 {
 	}
 	
 	public static void outputData(int arraySize, SortOutput sorted, SortOutput reverse, SortOutput random, String fileName) {
-		/*
+		
 		System.out.println(sorted.fileToString());
 		System.out.println(reverse.fileToString());
 		System.out.println(random.fileToString());
-		*/
+		
 		
 		if (arraySize <= 20) 
 			outputCommandLine(sorted, reverse, random);
