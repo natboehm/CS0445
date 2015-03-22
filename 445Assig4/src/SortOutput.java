@@ -15,6 +15,7 @@ public class SortOutput {
 	DecimalFormat df = new DecimalFormat("#0.########");
 	
 	Integer[] array;
+	Integer[] iArray;
 	
 	public SortOutput(Integer[] a, float ave, int s, int n, int ord, int alg) {
 		array = a;
@@ -22,12 +23,17 @@ public class SortOutput {
 		numberTrials = n;
 		arraySize = s;
 		
-		if (ord == 1) 
+		if (ord == 1) {
 			order = "Already Sorted";
-		else if (ord == 2)
+			iArray = Assig4.fillAlreadySorted(arraySize);
+		} else if (ord == 2) {
 			order = "Reverse Sorted";
-		else if (ord == 3)
+			iArray = Assig4.fillReverseSorted(arraySize);
+		} else if (ord == 3) {
 			order = "Random";
+			iArray = Assig4.fillRandom(arraySize);
+			// TODO use same random array as what sorted 
+		}
 		
 		if (alg == 1) 
 			algorithm = "Simple QuickSort";
@@ -94,13 +100,15 @@ public class SortOutput {
 		t.append("\n");
 		t.append("Data Configuration: " + order);
 		t.append("\n");
-		t.append("Initial Array: ");
+		t.append("Initial Array: " );
+		for (int i = 0; i < arraySize; i++) 
+			t.append(iArray[i] + " ");
 		t.append("\n");
 		t.append("Array After Sorting: ");
 		for (int i = 0; i < arraySize; i++)
 			t.append(array[i] + " ");
 		t.append("\n");
-		t.append("Average Time per Trial: " + averageTime + " secs");
+		t.append("Average Time per Trial: " + averageTime + " nanosecs");
 		t.append("\n");
 		
 		return t.toString();

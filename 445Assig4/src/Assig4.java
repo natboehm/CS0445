@@ -37,10 +37,14 @@ public class Assig4 {
 		Integer[] alreadySorted = fillAlreadySorted(arraySize);
 		Integer[] reverseSorted = fillReverseSorted(arraySize);
 		Integer[] random = null;
+		
 		sortArrays(alreadySorted, reverseSorted, random, arraySize, numberTrials, w);
 	}
 	
 	public static void sortArrays(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, BufferedWriter w) {
+		// TODO random array needs to be the same unsorted data for each sort, different random data for each trial 
+		// TODO output mode needs to be for EACH trial, not just end of all trials 
+		
 		for (int i = 0; i < numberTrials; i++) {
 			reverseSorted = fillReverseSorted(arraySize);
 			random 		  = fillRandom(arraySize);
@@ -348,6 +352,7 @@ public class Assig4 {
 		
 		System.out.println("Enter array size: ");
 		arraySize = inScan.nextInt();
+		
 		return arraySize;
 	}
 	
@@ -357,6 +362,7 @@ public class Assig4 {
 		System.out.println("Enter number of trials: ");
 		numberTrials = inScan.nextInt();
 		inScan.nextLine();
+		
 		return numberTrials;
 	}
 	
@@ -365,6 +371,7 @@ public class Assig4 {
 		
 		System.out.println("Enter file name: ");
 		fileName = inScan.nextLine();
+		
 		return fileName;
 	}
 	
@@ -388,13 +395,12 @@ public class Assig4 {
 	}
 	
 	public static void outputToFile(SortOutput sorted, SortOutput reverse, SortOutput random, BufferedWriter w) {
-			try {
-				w.append(sorted.fileToString());
-				w.append(reverse.fileToString());
-				w.append(random.fileToString());
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			w.append(sorted.fileToString());
+			w.append(reverse.fileToString());
+			w.append(random.fileToString());	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
