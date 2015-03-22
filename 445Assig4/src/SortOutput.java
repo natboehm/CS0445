@@ -17,7 +17,7 @@ public class SortOutput {
 	Integer[] array;
 	Integer[] iArray;
 	
-	public SortOutput(Integer[] a, float ave, int s, int n, int ord, int alg) {
+	public SortOutput(Integer[] a, Integer[] i, float ave, int s, int n, int ord, int alg) {
 		array = a;
 		averageTime = df.format(ave);
 		numberTrials = n;
@@ -25,14 +25,13 @@ public class SortOutput {
 		
 		if (ord == 1) {
 			order = "Already Sorted";
-			iArray = Assig4.fillAlreadySorted(arraySize);
+			iArray = i;
 		} else if (ord == 2) {
 			order = "Reverse Sorted";
-			iArray = Assig4.fillReverseSorted(arraySize);
+			iArray = i;
 		} else if (ord == 3) {
 			order = "Random";
-			iArray = Assig4.fillRandom(arraySize);
-			// TODO use same random array as what sorted 
+			iArray = i;
 		}
 		
 		if (alg == 1) 
