@@ -44,6 +44,8 @@ public class SortOutput {
 			algorithm = "Median of 3 QuickSort, Base Case < 20";
 		else if (alg == 5)
 			algorithm = "Random Pivot QuickSort"; 
+		else if (alg == 6)
+			algorithm = "MergeSort";
 	}
 
 	public String fileToString() {

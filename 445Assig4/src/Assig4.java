@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class Assig4 {
 	static Scanner inScan = new Scanner(System.in);
-	static long billion = 1000000000;
+	static final long billion = 1000000000;
 	
 	public static void main(String [] args) {
 		inputTestInfo();
@@ -47,7 +47,11 @@ public class Assig4 {
 		random = fillRandom(arraySize);
 		Integer[] randomSample = copyArray(random, arraySize);
 		
-		for (int i = 0; i < numberTrials; i++) {	
+		for (int i = 0; i < numberTrials; i++) {
+			reverseSorted = fillReverseSorted(arraySize);
+			randomSample = copyArray(random, arraySize);
+			useMergeSort(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
+			
 			reverseSorted = fillReverseSorted(arraySize);
 			randomSample  = copyArray(random, arraySize);
 			useSimpleQuick(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
@@ -72,6 +76,53 @@ public class Assig4 {
 		}	
 	}
 	
+	public static void useMergeSort(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
+		long alreadyTime, reverseTime, randTime;
+		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
+		float alreadyAverage, reverseAverage, randAverage;
+		
+		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
+		Integer[] initialRandom = copyArray(random, arraySize);
+		
+		alreadyTime = mergeSort(alreadySorted, arraySize);
+		alreadyTotal += alreadyTime;
+		reverseTime = mergeSort(reverseSorted, arraySize);
+		reverseTotal += reverseTime;
+		randTime = mergeSort(random, arraySize);
+		randTotal += randTime;
+		
+		if (arraySize <= 20) {
+			SortOutput sTrace = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 6);
+			SortOutput rTrace = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 6);
+			SortOutput randTrace = new SortOutput(random, initialRandom, randTime, arraySize, numberTrials, 3, 6);
+			
+			outputCommandLine(sTrace, rTrace, randTrace);
+		}
+		
+		if (i == (numberTrials - 1)) {
+			alreadyAverage = ((float)alreadyTotal/numberTrials)/billion;
+			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
+			randAverage = ((float)randTotal/numberTrials)/billion;
+			
+			SortOutput s = new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 6);
+			SortOutput r = new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 6);
+			SortOutput rand = new SortOutput(random, initialRandom, randAverage, arraySize, numberTrials, 3, 6);
+			
+			outputToFile(s, r, rand, w);
+		}
+	}
+	
+	public static long mergeSort(Integer[] array, int arraySize) {
+		long start, finish, delta = 0;
+		
+		start = System.nanoTime();
+		MergeSort.mergeSort(array, arraySize);
+		finish = System.nanoTime();
+		
+		delta = finish - start;
+		return delta;
+	}
+	
 	public static void useSimpleQuick(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, int i, BufferedWriter w) {
 		long alreadyTime, reverseTime, randTime;
 		long alreadyTotal = 0, reverseTotal = 0, randTotal = 0;
@@ -80,11 +131,11 @@ public class Assig4 {
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
 		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime  = alreadySortedSimpleQuick(alreadySorted, arraySize);
+		alreadyTime  = simpleQuick(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime  = reverseSimpleQuick(reverseSorted, arraySize);
+		reverseTime  = simpleQuick(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime 	 = randomSimpleQuick(random, arraySize);
+		randTime 	 = simpleQuick(random, arraySize);
 		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
@@ -108,33 +159,11 @@ public class Assig4 {
 		}
 	}
 	
-	public static long alreadySortedSimpleQuick(Integer[] alreadySorted, int arraySize) {
+	public static long simpleQuick(Integer[] array, int arraySize) {
 		long start, finish, delta = 0;
 		
 		start = System.nanoTime();
-		SimpleQuickSort.quickSort(alreadySorted, arraySize);
-		finish = System.nanoTime();
-		
-		delta = finish - start;
-		return delta;
-	}
-	
-	public static long reverseSimpleQuick(Integer[] reverseSorted, int arraySize) {
-		long start, finish, delta = 0;
-		
-		start = System.nanoTime();
-		SimpleQuickSort.quickSort(reverseSorted, arraySize);
-		finish = System.nanoTime();
-		
-		delta = finish - start; 
-		return delta;
-	}
-	
-	public static long randomSimpleQuick(Integer[] random, int arraySize) {
-		long start, finish, delta = 0;
-		
-		start = System.nanoTime();
-		SimpleQuickSort.quickSort(random, arraySize);
+		SimpleQuickSort.quickSort(array, arraySize);
 		finish = System.nanoTime();
 		
 		delta = finish - start;
@@ -159,11 +188,11 @@ public class Assig4 {
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
 		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime  = alreadyMedThree(alreadySorted, arraySize);
+		alreadyTime  = medThree(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime  = reverseMedThree(reverseSorted, arraySize);
+		reverseTime  = medThree(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime 	 = randomMedThree(random, arraySize);	
+		randTime 	 = medThree(random, arraySize);	
 		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
@@ -196,11 +225,11 @@ public class Assig4 {
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
 		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime  = alreadyMedThree(alreadySorted, arraySize);
+		alreadyTime  = medThree(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime  = reverseMedThree(reverseSorted, arraySize);
+		reverseTime  = medThree(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime 	 = randomMedThree(random, arraySize);	
+		randTime 	 = medThree(random, arraySize);	
 		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
@@ -233,11 +262,11 @@ public class Assig4 {
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
 		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime  = alreadyMedThree(alreadySorted, arraySize);
+		alreadyTime  = medThree(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime  = reverseMedThree(reverseSorted, arraySize);
+		reverseTime  = medThree(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime 	 = randomMedThree(random, arraySize);	
+		randTime 	 = medThree(random, arraySize);	
 		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
@@ -261,33 +290,11 @@ public class Assig4 {
 		}
 	}
 	
-	public static long alreadyMedThree(Integer[] alreadySorted, int arraySize) {
+	public static long medThree(Integer[] array, int arraySize) {
 		long start, finish, delta = 0;
 		
 		start = System.nanoTime();
-		MedOfThreeQuickSort.quickSort(alreadySorted, arraySize);
-		finish = System.nanoTime();
-		
-		delta = finish - start;
-		return delta;
-	}
-	
-	public static long reverseMedThree(Integer[] reverseSorted, int arraySize) {
-		long start, finish, delta = 0;
-		
-		start = System.nanoTime();
-		MedOfThreeQuickSort.quickSort(reverseSorted, arraySize);
-		finish = System.nanoTime();
-		
-		delta = finish - start;
-		return delta;
-	}
-	
-	public static long randomMedThree(Integer[] random, int arraySize) {
-		long start, finish, delta = 0;
-		
-		start = System.nanoTime();
-		MedOfThreeQuickSort.quickSort(random, arraySize);
+		MedOfThreeQuickSort.quickSort(array, arraySize);
 		finish = System.nanoTime();
 		
 		delta = finish - start;
@@ -302,11 +309,11 @@ public class Assig4 {
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
 		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime  = alreadyRandomPivot(alreadySorted, arraySize);
+		alreadyTime  = randomPivot(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime  = reverseRandomPivot(reverseSorted, arraySize);
+		reverseTime  = randomPivot(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime 	 = randomRandomPivot(random, arraySize);	
+		randTime 	 = randomPivot(random, arraySize);	
 		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
@@ -335,33 +342,11 @@ public class Assig4 {
 		}
 	}
 	
-	public static long alreadyRandomPivot(Integer[] alreadySorted, int arraySize) {
+	public static long randomPivot(Integer[] array, int arraySize) {
 		long start, finish, delta = 0;
 		
 		start = System.nanoTime();
-		RandomPivotQuickSort.quickSort(alreadySorted, arraySize);
-		finish = System.nanoTime();
-		
-		delta = finish - start;
-		return delta;
-	}
-	
-	public static long reverseRandomPivot(Integer[] reverseSorted, int arraySize) {
-		long start, finish, delta = 0;
-		
-		start = System.nanoTime();
-		RandomPivotQuickSort.quickSort(reverseSorted, arraySize);
-		finish = System.nanoTime();
-		
-		delta = finish - start;
-		return delta;
-	}
-	
-	public static long randomRandomPivot(Integer[] random, int arraySize) {
-		long start, finish, delta = 0;
-		
-		start = System.nanoTime();
-		RandomPivotQuickSort.quickSort(random, arraySize);
+		RandomPivotQuickSort.quickSort(array, arraySize);
 		finish = System.nanoTime();
 		
 		delta = finish - start;
