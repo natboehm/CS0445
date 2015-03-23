@@ -7,14 +7,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 /* 
- *  Natalie Boehm, CS 0445, Assignment 4: QuickSort Comparison 
+ *  Natalie Boehm, CS 0445, Assignment 4: QuickSort Comparison, Main program for sorting 
+ *  arrays with random, already sorted, and reverse sorted data utilizing a simple QuickSort, 
+ *  Median of Three QuickSort, and Random Pivot Quick Sort.
  */
 
 public class Assig4 {
 	static Scanner inScan = new Scanner(System.in);
 	static long billion = 1000000000;
-	
-	static int[] staticData;
 	
 	public static void main(String [] args) {
 		inputTestInfo();
@@ -38,41 +38,34 @@ public class Assig4 {
 	public static void fillArray(int arraySize, int numberTrials, BufferedWriter w) {
 		Integer[] alreadySorted = fillAlreadySorted(arraySize);
 		Integer[] reverseSorted = fillReverseSorted(arraySize);
-		Integer[] random = null;
+		Integer[] random 		= null;
 		
 		sortArrays(alreadySorted, reverseSorted, random, arraySize, numberTrials, w);
 	}
 	
 	public static void sortArrays(Integer[] alreadySorted, Integer[] reverseSorted, Integer[] random, int arraySize, int numberTrials, BufferedWriter w) {
-		// TODO random array needs to be the same unsorted data for each sort, different random data for each trial 
 		random = fillRandom(arraySize);
 		Integer[] randomSample = copyArray(random, arraySize);
 		
-		for (int i = 0; i < numberTrials; i++) {
+		for (int i = 0; i < numberTrials; i++) {	
 			reverseSorted = fillReverseSorted(arraySize);
-			randomSample = copyArray(random, arraySize);
-			//System.out.println("Unsorted reverse S: " + SimpleQuickSort.toString(reverseSorted));
-			//System.out.println("Unsorted random S: " + SimpleQuickSort.toString(randomSample));
+			randomSample  = copyArray(random, arraySize);
 			useSimpleQuick(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
-			
+		
 			reverseSorted = fillReverseSorted(arraySize);
-			randomSample = copyArray(random, arraySize);
-			//System.out.println("Unsorted reverse A: " + MedOfThreeQuickSort.toString(reverseSorted));
-			//System.out.println("Unsorted random A: " + MedOfThreeQuickSort.toString(randomSample));
+			randomSample  = copyArray(random, arraySize);
 			useMedOfThreeA(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
-			randomSample = copyArray(random, arraySize);
-			//System.out.println("Unsorted reverse B: " + MedOfThreeQuickSort.toString(reverseSorted));
-			//System.out.println("Unsorted reverse B: " + MedOfThreeQuickSort.toString(randomSample));
+			randomSample  = copyArray(random, arraySize);
 			useMedOfThreeB(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
-			randomSample = copyArray(random, arraySize);
+			randomSample  = copyArray(random, arraySize);
 			useMedOfThreeC(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
 			
 			reverseSorted = fillReverseSorted(arraySize);
-			randomSample = copyArray(random, arraySize);
+			randomSample  = copyArray(random, arraySize);
 			useRandomPivot(alreadySorted, reverseSorted, randomSample, arraySize, numberTrials, i, w);
 			
 			random = fillRandom(arraySize);
@@ -85,18 +78,18 @@ public class Assig4 {
 		float alreadyAverage, reverseAverage, randAverage;
 		
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
-		Integer[] initialRandom = copyArray(random, arraySize);
+		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime = alreadySortedSimpleQuick(alreadySorted, arraySize);
+		alreadyTime  = alreadySortedSimpleQuick(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime = reverseSimpleQuick(reverseSorted, arraySize);
+		reverseTime  = reverseSimpleQuick(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
 		randTime 	 = randomSimpleQuick(random, arraySize);
-		randTotal += randTime;
+		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
-			SortOutput sTrace = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 1);
-			SortOutput rTrace = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 1);
+			SortOutput sTrace 	 = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 1);
+			SortOutput rTrace 	 = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 1);
 			SortOutput randTrace = new SortOutput(random, initialRandom, randTime, arraySize, numberTrials, 3, 1);
 			
 			outputCommandLine(sTrace, rTrace, randTrace);
@@ -107,8 +100,8 @@ public class Assig4 {
 			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
 			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
-			SortOutput s = new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 1);
-			SortOutput r = new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 1);
+			SortOutput s 	= new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 1);
+			SortOutput r 	= new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 1);
 			SortOutput rand = new SortOutput(random, initialRandom, randAverage, arraySize, numberTrials, 3, 1);
 			
 			outputToFile(s, r, rand, w);
@@ -164,18 +157,18 @@ public class Assig4 {
 		float alreadyAverage, reverseAverage, randAverage;
 		
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
-		Integer[] initialRandom = copyArray(random, arraySize);
+		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime = alreadyMedThree(alreadySorted, arraySize);
+		alreadyTime  = alreadyMedThree(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime = reverseMedThree(reverseSorted, arraySize);
+		reverseTime  = reverseMedThree(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime = randomMedThree(random, arraySize);	
-		randTotal += randTime;
+		randTime 	 = randomMedThree(random, arraySize);	
+		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
-			SortOutput sTrace = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 2);
-			SortOutput rTrace = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 2);
+			SortOutput sTrace 	 = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 2);
+			SortOutput rTrace 	 = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 2);
 			SortOutput randTrace = new SortOutput(random, initialRandom, randTime, arraySize, numberTrials, 3, 2);
 			
 			outputCommandLine(sTrace, rTrace, randTrace);
@@ -186,8 +179,8 @@ public class Assig4 {
 			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
 			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
-			SortOutput s = new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 2);
-			SortOutput r = new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 2);
+			SortOutput s 	= new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 2);
+			SortOutput r 	= new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 2);
 			SortOutput rand = new SortOutput(random, initialRandom, randAverage, arraySize, numberTrials, 3, 2);
 			
 			outputToFile(s, r, rand, w);
@@ -201,18 +194,18 @@ public class Assig4 {
 		float alreadyAverage, reverseAverage, randAverage;
 		
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
-		Integer[] initialRandom = copyArray(random, arraySize);
+		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime = alreadyMedThree(alreadySorted, arraySize);
+		alreadyTime  = alreadyMedThree(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime = reverseMedThree(reverseSorted, arraySize);
+		reverseTime  = reverseMedThree(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime = randomMedThree(random, arraySize);	
-		randTotal += randTime;
+		randTime 	 = randomMedThree(random, arraySize);	
+		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
-			SortOutput sTrace = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 3);
-			SortOutput rTrace = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 3);
+			SortOutput sTrace 	 = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 3);
+			SortOutput rTrace 	 = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 3);
 			SortOutput randTrace = new SortOutput(random, initialRandom, randTime, arraySize, numberTrials, 3, 3);
 			
 			outputCommandLine(sTrace, rTrace, randTrace);
@@ -223,8 +216,8 @@ public class Assig4 {
 			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
 			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
-			SortOutput s = new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 3);
-			SortOutput r = new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 3);
+			SortOutput s 	= new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 3);
+			SortOutput r 	= new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 3);
 			SortOutput rand = new SortOutput(random, initialRandom, randAverage, arraySize, numberTrials, 3, 3);
 			
 			outputToFile(s, r, rand, w);
@@ -238,18 +231,18 @@ public class Assig4 {
 		float alreadyAverage, reverseAverage, randAverage;
 		
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
-		Integer[] initialRandom = copyArray(random, arraySize);
+		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime = alreadyMedThree(alreadySorted, arraySize);
+		alreadyTime  = alreadyMedThree(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime = reverseMedThree(reverseSorted, arraySize);
+		reverseTime  = reverseMedThree(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime = randomMedThree(random, arraySize);	
-		randTotal += randTime;
+		randTime 	 = randomMedThree(random, arraySize);	
+		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
-			SortOutput sTrace = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 4);
-			SortOutput rTrace = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 4);
+			SortOutput sTrace 	 = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 4);
+			SortOutput rTrace 	 = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 4);
 			SortOutput randTrace = new SortOutput(random, initialRandom, randTime, arraySize, numberTrials, 3, 4);
 			
 			outputCommandLine(sTrace, rTrace, randTrace);
@@ -260,8 +253,8 @@ public class Assig4 {
 			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
 			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
-			SortOutput s = new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 4);
-			SortOutput r = new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 4);
+			SortOutput s	= new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 4);
+			SortOutput r 	= new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 4);
 			SortOutput rand = new SortOutput(random, initialRandom, randAverage, arraySize, numberTrials, 3, 4);
 			
 			outputToFile(s, r, rand, w);
@@ -307,18 +300,18 @@ public class Assig4 {
 		float alreadyAverage, reverseAverage, randAverage;
 		
 		Integer[] initialReverse = copyArray(reverseSorted, arraySize);
-		Integer[] initialRandom = copyArray(random, arraySize);
+		Integer[] initialRandom  = copyArray(random, arraySize);
 		
-		alreadyTime = alreadyRandomPivot(alreadySorted, arraySize);
+		alreadyTime  = alreadyRandomPivot(alreadySorted, arraySize);
 		alreadyTotal += alreadyTime;
-		reverseTime = reverseRandomPivot(reverseSorted, arraySize);
+		reverseTime  = reverseRandomPivot(reverseSorted, arraySize);
 		reverseTotal += reverseTime;
-		randTime = randomRandomPivot(random, arraySize);	
-		randTotal += randTime;
+		randTime 	 = randomRandomPivot(random, arraySize);	
+		randTotal 	 += randTime;
 		
 		if (arraySize <= 20) {
-			SortOutput sTrace = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 5);
-			SortOutput rTrace = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 5);
+			SortOutput sTrace 	 = new SortOutput(alreadySorted, alreadySorted, alreadyTime, arraySize, numberTrials, 1, 5);
+			SortOutput rTrace 	 = new SortOutput(reverseSorted, initialReverse, reverseTime, arraySize, numberTrials, 2, 5);
 			SortOutput randTrace = new SortOutput(random, initialRandom, randTime, arraySize, numberTrials, 3, 5);
 			
 			outputCommandLine(sTrace, rTrace, randTrace);
@@ -329,8 +322,8 @@ public class Assig4 {
 			reverseAverage = ((float)reverseTotal/numberTrials)/billion;
 			randAverage    = ((float)randTotal/numberTrials)/billion;
 			
-			SortOutput s = new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 5);
-			SortOutput r = new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 5);
+			SortOutput s 	= new SortOutput(alreadySorted, alreadySorted, alreadyAverage, arraySize, numberTrials, 1, 5);
+			SortOutput r 	= new SortOutput(reverseSorted, initialReverse, reverseAverage, arraySize, numberTrials, 2, 5);
 			SortOutput rand = new SortOutput(random, initialRandom, randAverage, arraySize, numberTrials, 3, 5);
 			
 			outputToFile(s, r, rand, w);
@@ -414,8 +407,12 @@ public class Assig4 {
 		int arraySize;
 		
 		System.out.println("Enter array size: ");
+		if (!inScan.hasNextInt()) {
+			System.out.println("Invalid input");
+			System.exit(0);
+		}
 		arraySize = inScan.nextInt();
-		
+
 		return arraySize;
 	}
 	
@@ -423,9 +420,13 @@ public class Assig4 {
 		int numberTrials;
 		
 		System.out.println("Enter number of trials: ");
+		if (!inScan.hasNextInt()) {
+			System.out.println("Invalid input");
+			System.exit(0);
+		}
 		numberTrials = inScan.nextInt();
 		inScan.nextLine();
-		
+			
 		return numberTrials;
 	}
 	
@@ -434,6 +435,10 @@ public class Assig4 {
 		
 		System.out.println("Enter file name: ");
 		fileName = inScan.nextLine();
+		if (fileName.equals("")) {
+			System.out.println("Invalid input");
+			System.exit(0);
+		}
 		
 		return fileName;
 	}

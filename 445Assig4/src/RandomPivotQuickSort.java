@@ -1,7 +1,8 @@
 import java.util.Random;
 
 /*
- *  Natalie Boehm, CS 0445, Assignment 4: QuickSort Comparison
+ *  Natalie Boehm, CS 0445, Assignment 4: QuickSort Comparison, Class to sort arrays utilizing a randomly 
+ *  chosen pivot for the QuickSort.
  */
 
 public class RandomPivotQuickSort {

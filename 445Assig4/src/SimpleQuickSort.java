@@ -1,6 +1,7 @@
 
 /*
- *  Natalie Boehm, CS 0445, Assignment 4: QuickSort Comparison 
+ *  Natalie Boehm, CS 0445, Assignment 4: QuickSort Comparison, Class to sort arrays utilizing a 
+ *  pivot as the last position in the array.
  */
 
 public class SimpleQuickSort {

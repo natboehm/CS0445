@@ -1,7 +1,7 @@
 import java.text.DecimalFormat;
 
 /*
- *  Natalie Boehm, Assignment 4: QuickSort Comparison
+ *  Natalie Boehm, Assignment 4: QuickSort Comparison, class to store data to output to file or command line.
  */
 
 public class SortOutput {
@@ -45,33 +45,7 @@ public class SortOutput {
 		else if (alg == 5)
 			algorithm = "Random Pivot QuickSort"; 
 	}
-	
-	/*
-	public String getAlgorithm() { return algorithm; }
-	
-	public void setAlgorithm(String a) { algorithm = a; }
 
-	public int getArraySize() { return arraySize; }
-	
-	public void setArraySize(int s) { arraySize = s; }
-	
-	public String getOrder() { return order; }
-	
-	public void setOrder(String o) { order = o; }
-	
-	public int getNumberTrials() { return numberTrials; }
-	
-	public void setNumberTrials(int t) { numberTrials = t; }
-	
-	public long getAverageTime() { return averageTime; }
-	
-	public void setAverageTime(int ave) { averageTime = ave; }
-	
-	public Integer[] getArray() { return array; }
-	
-	public void setRandom(Integer[] y) { array = y; }
-	*/
-	
 	public String fileToString() {
 		StringBuilder f = new StringBuilder();
 		
